@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function sendPing() {
+            fetch("ping.php", {
+                method: "POST",
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => alert("Ошибка: " + error));
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на мой сайт!</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О сайте</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+<li><a href="biography.html">Биография</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Что это за сайт?</h2>
+            <p>Этот сайт демонстрирует структуру из нескольких страниц. Используется HTML для создания простого сайта.</p>
+        </section>
+        <section>
+            <h2>Отправить Пинг мне</h2>
+            <form action="ping.php" method="post">
+                <button type="submit">Пинг</button>
+            </form>
+        </section>
+    </main>
+    </main>
+    <footer>
+        <p>&copy; 2024 Мой сайт. Все права защищены.</p>
+    </footer>
+</body>
+</html>
