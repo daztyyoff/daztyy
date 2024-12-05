@@ -1,14 +1,48 @@
 <?php
-// Ваш токен и chat_id
-$bot_token = "8086168051:AAFFb4uqsGyK3tAHYifeFwjd17ZlGZ88p6Y";
-$chat_id = "1085992226";
+// Получаем данные от клиента (если отправляется JSON)
+$data = json_decode(file_get_contents("php://input"), true);
 
-// Сообщение для отправки
-$message = "Пинг!";
+// Если данные не пришли
+if (!$data) {
+    echo json_encode(["status" => "error", "message" => "Нет данных"]);
+    exit;
+}
 
-// Формируем URL для запроса к API Telegram
-$api_url = "https://api.telegram.org/bot$bot_token/sendMessage?chat_id=$chat_id&text=" . urlencode($message);
+// Ваши настройки Firebase
+$serverKey = "YOUR_SERVER_KEY";  // Получите Server Key из Firebase Console
+$token = "DEVICE_FCM_TOKEN";  // Токен устройства, полученный ранее
 
-// Отправляем запрос
-file_get_contents($api_url);
+// Подготовка данных для отправки уведомления
+$notificationData = [
+    "to" => $token,
+    "notification" => [
+        "title" => "Пинг!",
+        "body"  => $data['message'] // Текст уведомления
+    ]
+];
+
+// Заголовки для отправки запроса к Firebase
+$headers = [
+    'Authorization: key=' . $serverKey,
+    'Content-Type: application/json'
+];
+
+// Инициализация cURL
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($notificationData));
+
+// Выполняем запрос и получаем ответ
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Проверяем, есть ли ошибка
+if ($response === FALSE) {
+    echo json_encode(["status" => "error", "message" => "Ошибка при отправке уведомления"]);
+} else {
+    echo json_encode(["status" => "success", "message" => "Уведомление отправлено", "response" => $response]);
+}
 ?>
