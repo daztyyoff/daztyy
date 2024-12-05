@@ -5,41 +5,251 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Биография</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Эффект снега на фоне */
+        body {
+            font-family: var(--main-font);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--clr);
+            line-height: 1.6;
+            padding: 20px;
+            position: relative;
+            overflow: hidden; /* Чтобы снег не выходил за пределы */
+        }
+
+        /* Контейнер для снега */
+        .snowflakes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Снежинки не будут мешать кликам */
+            z-index: -1; /* Снежинки будут позади основного содержимого */
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            z-index: 1000;
+            font-size: 1.5em;
+            color: #fff;
+            opacity: 0.8;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .snowflake:nth-child(odd) {
+            animation-duration: 12s;
+        }
+
+        .snowflake:nth-child(even) {
+            animation-duration: 15s;
+        }
+
+        .snowflake:nth-child(3n) {
+            font-size: 2em;
+            animation-duration: 20s;
+        }
+
+        /* Основной стиль для тела */
+        header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+        }
+
+        ul li {
+            position: relative;
+            list-style: none;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        ul li a {
+            position: relative;
+            text-decoration: none;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--clr);
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+            padding: 20px;
+            background: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        section {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .bio-photo {
+            margin-right: 30px;
+        }
+
+        .bio-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        .bio-info {
+            max-width: 600px;
+        }
+
+        h2 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--clr);
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        ul.contact-list {
+            margin-top: 10px;
+        }
+
+        ul.contact-list li {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--clr);
+        }
+
+        a:hover {
+            color: #ddd;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #777;
+        }
+
+        footer p {
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Контейнер для снежинок -->
+    <div class="snowflakes-container"></div>
+
     <header>
-        <h1>Моя Биография</h1>
+        <h1>bio</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="about.html">О сайте</a></li>
-                <li><a href="contact.html">Контакты</a></li>
-<li><a href="biography.html">Биография</a></li>
+                <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Главная</span></a></li>
+                <li><a href="about.html"><i class="fa-solid fa-info-circle"></i><span>О сайте</span></a></li>
+                <li><a href="contact.html"><i class="fa-solid fa-phone"></i><span>Контакты</span></a></li>
+                <li><a href="biography.html"><i class="fa-solid fa-user"></i><span>Биография</span></a></li>
             </ul>
         </nav>
     </header>
+
     <main>
         <section>
-            <h2>Обо мне</h2>
-            <img src="photo.jpg" alt="Моя ава">
-            <p> <strong>Денис </strong>.  7 oct 2006 .</p
-        </section>
-        <section>
-            <h2>Мои увлечения</h2>
-            <p>Сплю.</p>
-        </section>
-        <section>
-            <h2>Контакты</h2>
-            <p>Связаться со мной можно:</p>
-            <ul>
-                <li>Телефон: <a href="tel:+89173224851">+89173224851</a></li>
-                <li>Email: <a href="mailto:dgorovix@bk.ru">dgorovix@bk.ru</a></li>
-                <li>Telegram: <a href="https://t.me/daztyy" target="_blank">@daztyy</a></li>
-            </ul>
+            <div class="bio-photo">
+                <img src="photo.jpg" alt="Моя аватарка">
+            </div>
+            <div class="bio-info">
+                <h2>Обо мне</h2>
+                <p><strong>Денис</strong>. 7 октября 2006 г.</p>
+                <h2>Мои увлечения</h2>
+                <p>Сплю.</p>
+                <h2>Контакты</h2>
+                <p>Связаться со мной можно:</p>
+                <ul class="contact-list">    
+                    <li>Telegram: <a href="https://t.me/daztyy" target="_blank">@daztyy</a></li>
+              
+                </ul>
+            </div>
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2024 . Все права не защищены.</p>
+        <p>&copy; 2024 Мой сайт. Все права защищены.</p>
     </footer>
+
+    <script>
+        // Функция для генерации снежинок
+        function createSnowflakes() {
+            const snowflakesContainer = document.querySelector('.snowflakes-container');
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animationDuration = `${Math.random() * 15 + 10}s`; // случайная длительность падения
+                snowflake.innerHTML = '&#10052;'; // символ снежинки
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        createSnowflakes(); // Вызов функции для создания снежинок
+    </script>
+
 </body>
 </html>
