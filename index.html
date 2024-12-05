@@ -4,62 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная страница</title>
-    <!-- Подключение Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js"></script>
-    <script>
-        // Ваши настройки Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCO4ZuIu08J1Vh2mM3q-vIzuvYzscFmmmE",
-            authDomain: "daztyy-15203.firebaseapp.com",
-            projectId: "daztyy-15203",
-            storageBucket: "daztyy-15203.firebasestorage.app",
-            messagingSenderId: "564505461498",
-            appId: "1:564505461498:web:4e970236a47c7943a7ff43",
-            measurementId: "G-D46D77HFMR"
-        };
-
-        // Инициализация Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const messaging = firebase.messaging();
-
-        // Запрос на разрешение получения уведомлений
-        Notification.requestPermission().then(function(permission) {
-            if (permission === "granted") {
-                console.log("Разрешение на уведомления получено.");
-                // Получаем токен устройства для отправки уведомлений
-                messaging.getToken({ vapidKey: "YOUR_VAPID_KEY" }).then(function(currentToken) {
-                    if (currentToken) {
-                        console.log("FCM токен:", currentToken);
-                        // Сохраните токен на сервере для отправки уведомлений
-                    } else {
-                        console.log("Не удалось получить токен.");
-                    }
-                }).catch(function(err) {
-                    console.log("Ошибка при получении токена:", err);
-                });
-            } else {
-                console.log("Разрешение на уведомления не получено.");
-            }
-        });
-
-        // Обработка полученных уведомлений
-        messaging.onMessage(function(payload) {
-            console.log("Получено уведомление:", payload);
-            new Notification(payload.notification.title, {
-                body: payload.notification.body,
-            });
-        });
-
-        // Функция для отправки уведомления
-        function sendNotification() {
-            if (Notification.permission === "granted") {
-                new Notification("Пинг получен! Кто-то нажал на кнопку пинг на сайте.");
-            } else {
-                alert("Уведомления не разрешены. Пожалуйста, разрешите их.");
-            }
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -81,12 +25,33 @@
 
         <section>
             <h2>Отправить Пинг:</h2>
-            <button onclick="sendNotification()">Пинг</button>
+            <button id="pingButton">Пинг</button>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2024 Мой сайт. Все права защищены.</p>
     </footer>
+
+    <script>
+        // Получаем элемент кнопки
+        document.getElementById('pingButton').addEventListener('click', function() {
+            // Отправляем запрос на сервер для отправки уведомления
+            fetch('sendNotification.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: 'Кто-то нажал на кнопку пинг на сайте.' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Уведомление отправлено', data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    </script>
 </body>
 </html>
