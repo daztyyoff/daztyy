@@ -37,7 +37,7 @@
         // Получаем элемент кнопки
         document.getElementById('pingButton').addEventListener('click', function() {
             // Отправляем запрос на сервер для отправки уведомления
-            fetch('sendNotification.php', {
+            fetch('ping.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
