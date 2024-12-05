@@ -1,80 +1,177 @@
-/* Основные стили для сайта */
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #222;
+    --clr: #fff;
+    --main-font: 'Roboto', sans-serif;
+    --secondary-font: 'Arial', sans-serif;
+}
+
+body {
+    font-family: var(--main-font);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--clr);
+    line-height: 1.6;
+    padding: 20px;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
+    width: 100%;
     text-align: center;
+    margin-bottom: 30px;
 }
 
-nav ul {
-    list-style-type: none;
-    padding: 0;
+h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #fff;
+    text-transform: uppercase;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
+nav {
+    margin-top: 20px;
 }
 
-nav ul li a {
-    color: white;
+ul {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+ul li {
+    position: relative;
+    list-style: none;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+ul li a {
+    position: relative;
     text-decoration: none;
-    font-size: 18px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--clr);
+    font-weight: bold;
+    font-size: 1.1em;
+    letter-spacing: 1px;
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
+ul li a span {
+    position: absolute;
+    font-family: var(--secondary-font);
+    color: var(--clr);
+    opacity: 0;
+    transition: 0.5s;
+    transform: scale(0) translateY(200%);
+}
+
+ul li:hover a span {
+    opacity: 1;
+    transform: scale(1) translateY(100%);
+}
+
+ul li:hover a i,
+ul li a span {
+    filter: drop-shadow(0 0 20px var(--clr)) drop-shadow(0 0 40px var(--clr)) drop-shadow(0 0 60px var(--clr));
 }
 
 main {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
     padding: 20px;
-    background-color: white;
+    background: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-h1, h2 {
-    color: #333;
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--clr);
+}
+
+p {
+    font-size: 1.1em;
+    color: #bbb;
+    margin-bottom: 15px;
+}
+
+ul.contact-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Размещение элементов в колонку */
+    align-items: center; /* Выравнивание по центру */
+    gap: 20px; /* Отступы между элементами */
+}
+
+ul.contact-list li {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--clr);
+}
+
+a:hover {
+    color: #ddd;
 }
 
 footer {
+    margin-top: 50px;
     text-align: center;
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    color: #777;
 }
 
-form {
-    background-color: #fafafa;
-    padding: 20px;
-    border-radius: 8px;
+footer p {
+    font-size: 1em;
 }
 
-input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+@media (max-width: 768px) {
+    ul {
+        flex-direction: column;
+        gap: 30px;
+    }
 
-input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-}
+    ul li {
+        width: 100px;
+        height: 100px;
+    }
 
-input[type="submit"]:hover {
-    background-color: #45a049;
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.6em;
+    }
+
+    p {
+        font-size: 1em;
+    }
 }
