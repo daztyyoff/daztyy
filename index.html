@@ -4,15 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная страница</title>
-    <link rel="stylesheet" href="styles.css">
     <script>
-        function sendPing() {
-            fetch("ping.php", {
-                method: "POST",
-            })
-            .then(response => response.text())
-            .then(data => alert(data))
-            .catch(error => alert("Ошибка: " + error));
+        // Функция для запроса разрешения на уведомления
+        function requestNotificationPermission() {
+            if (Notification.permission === "granted") {
+                // Уведомления уже разрешены
+                alert("Уведомления уже разрешены.");
+            } else if (Notification.permission !== "denied") {
+                // Запрашиваем разрешение
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === "granted") {
+                        alert("Разрешение на уведомления получено.");
+                    } else {
+                        alert("Разрешение на уведомления не получено.");
+                    }
+                });
+            }
+        }
+
+        // Функция для отправки уведомления
+        function sendNotification() {
+            if (Notification.permission === "granted") {
+                new Notification("Пинг получен! Кто-то нажал на кнопку пинг на сайте.");
+            } else {
+                alert("Уведомления не разрешены. Пожалуйста, разрешите их.");
+            }
         }
     </script>
 </head>
@@ -24,23 +40,23 @@
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="about.html">О сайте</a></li>
                 <li><a href="contact.html">Контакты</a></li>
-<li><a href="biography.html">Биография</a></li>
             </ul>
         </nav>
     </header>
+
     <main>
         <section>
             <h2>Что это за сайт?</h2>
             <p>Этот сайт демонстрирует структуру из нескольких страниц. Используется HTML для создания простого сайта.</p>
         </section>
+
         <section>
-            <h2>Отправить Пинг мне</h2>
-            <form action="ping.php" method="post">
-                <button type="submit">Пинг</button>
-            </form>
+            <h2>Отправить Пинг:</h2>
+            <button onclick="sendNotification()">Пинг</button>
+            <button onclick="requestNotificationPermission()">Запросить разрешение на уведомления</button>
         </section>
     </main>
-    </main>
+
     <footer>
         <p>&copy; 2024 Мой сайт. Все права защищены.</p>
     </footer>
