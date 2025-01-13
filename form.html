@@ -1,0 +1,173 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Форма</title> 
+     
+    <style> 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+        :root { 
+            --bg: #222; 
+            --clr: #fff; 
+            --main-font: 'Roboto', sans-serif; 
+            --secondary-font: 'Arial', sans-serif; 
+        } 
+        body { 
+            font-family: var(--main-font); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; 
+            align-items: center; 
+            min-height: 100vh; 
+            background: var(--bg); 
+            color: var(--clr); 
+            line-height: 1.6; 
+            padding: 20px; 
+            position: relative;
+        } 
+        .snowflakes-container { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: -1; 
+        } 
+        .snowflake { 
+            position: absolute; 
+            font-size: 1.5em; 
+            color: #fff; 
+            opacity: 0.8; 
+            animation: fall linear infinite; 
+        } 
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        header { 
+            width: 100%; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        } 
+        h1 { 
+            font-size: 2.5em; 
+            font-weight: 700; 
+            margin-bottom: 15px; 
+            color: #fff; 
+            text-transform: uppercase; 
+        } 
+        main { 
+            width: 100%; 
+            max-width: 600px; 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: #333; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+        } 
+        label { 
+            display: block; 
+            margin-bottom: 10px; 
+            color: var(--clr); 
+        } 
+        input, textarea { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border: 1px solid #555; 
+            border-radius: 5px; 
+            background: #444; 
+            color: var(--clr); 
+        } 
+        input[type="submit"] { 
+            background: var(--clr); 
+            border: none; 
+            cursor: pointer; 
+        } 
+        input[type="submit"]:hover { 
+            background: #fff; 
+            color: #222; 
+        } 
+        .gender-options { 
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 15px; 
+        } 
+        .gender-options label { 
+            display: flex; 
+            align-items: center; 
+            color: var(--clr); 
+        } 
+    </style> 
+</head> 
+<body> 
+ 
+    <div class="snowflakes-container"></div> 
+ 
+    <header> 
+        <h1>Заполните форму</h1> 
+    </header> 
+    <main> 
+        <form> 
+            <label>Имя:</label> 
+            <input type="text" required> 
+ 
+            <label>Фамилия:</label> 
+            <input type="text" required> 
+ 
+            <label>Пол:</label> 
+            <div class="gender-options"> 
+                <label> 
+                    <input type="radio" name="gender" value="male" required> 
+                    Мужской 
+                </label> 
+ 
+                <label> 
+                    <input type="radio" name="gender" value="female"> 
+                    Женский 
+                </label> 
+            </div> 
+ 
+            <label>Возраст:</label> 
+            <input type="number" min="1" max="100" required> лет 
+ 
+            <label>Расскажите немного о себе:</label> 
+            <textarea rows="4" required></textarea> 
+ 
+            <input type="submit" value="Отправить"> 
+        </form> 
+    </main> 
+ 
+    <script> 
+        // Создание снежинок 
+        function createSnowflakes() {
+const snowflakesContainer = document.querySelector('.snowflakes-container'); 
+            for (let i = 0; i < 100; i++) { // Количество снежинок 
+                const snowflake = document.createElement('div'); 
+                snowflake.className = 'snowflake'; 
+                snowflake.innerHTML = '❄'; // Символ снежинки 
+                snowflake.style.left = Math.random() * 100 + 'vw'; // Случайная позиция
+                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // Случайный размер 
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Случайная длительность падения 
+                snowflake.style.animationDelay = Math.random() * 2 + 's'; // Задержка перед анимацией
+                snowflake.style.opacity = Math.random(); // Случайная прозрачность 
+                snowflakesContainer.appendChild(snowflake); 
+            } 
+        } 
+         
+        createSnowflakes(); // Вызов функции для создания снежинок 
+    </script> 
+ 
+</body> 
+</html>
