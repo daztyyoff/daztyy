@@ -6,6 +6,14 @@
     <title>Главная</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, Edge */
+        }
+    </style>
 
     <style>
         /* Snow effect styles */
@@ -85,6 +93,43 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* Form styles */
+        form {
+            margin-top: 20px;
+            display: inline-block;
+            text-align: left;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #4cae4c;
+        }
     </style>
 </head>
 <body>
@@ -108,8 +153,25 @@
             <h2>Что это за сайт?</h2>
             <p>Этот сайт демонстрирует структуру из нескольких страниц. Используется HTML для создания простого сайта.</p>
         </section>
-    </main>
 
+        <!-- Contact Form -->
+        <section>
+            <h2>Обратная связь</h2>
+            <form>
+                <p>Ваше имя:</p>
+                <input type="text" id="name" name="name" required>
+
+                <p>Ваш email</p>
+                <input type="email" id="email" name="email" required>
+
+                <p>Ваше сообщение</p>
+                <textarea id="message" name="message" rows="4" required></textarea>
+
+                <button type="submit">Отправить</button>
+            </form>
+        </section>
+    </main>
+    
     <footer>
         <p>&copy; 2024 Мой сайт. Все права защищены.</p>
     </footer>
@@ -140,3 +202,5 @@
     </script>
 </body>
 </html>
+
+
