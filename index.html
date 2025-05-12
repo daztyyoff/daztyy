@@ -6,16 +6,14 @@
     <title>Главная</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<style>
+    <style>
         body {
             -webkit-user-select: none; /* Safari */
             -moz-user-select: none; /* Firefox */
             -ms-user-select: none; /* IE 10+ */
             user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, Edge */
         }
-    </style>
 
-    <style>
         /* Snow effect styles */
         #snow {
             position: fixed;
@@ -77,6 +75,11 @@
         nav ul li a {
             color: white;
             text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #4CAF50;
         }
 
         main {
@@ -103,6 +106,13 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transform: scale(1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        form:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
         form label {
@@ -116,6 +126,12 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        form input:focus, form textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
         }
 
         form button {
@@ -125,10 +141,77 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         form button:hover {
             background-color: #4cae4c;
+        }
+
+        form button:active {
+            transform: scale(0.98);
+        }
+
+        /* Fade-in effect */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .modal-content {
+            background-color: #333;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #444;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            animation: fadeIn 0.3s;
+            color: white;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        /* Parallax section */
+        .parallax {
+            height: 300px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -137,27 +220,33 @@
     <div id="snow"></div>
 
     <header>
-        <h1>daztyy!</h1>
+        <h1 class="fade-in">daztyy!</h1>
         <nav>
             <ul>
                 <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Главная</span></a></li>
                 <li><a href="about.html"><i class="fa-solid fa-info-circle"></i><span>О сайте</span></a></li>
                 <li><a href="contact.html"><i class="fa-solid fa-phone"></i><span>Контакты</span></a></li>
                 <li><a href="biography.html"><i class="fa-solid fa-user"></i><span>Биография</span></a></li>
+                <li><a id="modalBtn" href="#"><i class="fa-solid fa-window-maximize"></i><span>Модальное окно</span></a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section>
+        <section class="fade-in">
             <h2>Что это за сайт?</h2>
             <p>Этот сайт демонстрирует структуру из нескольких страниц. Используется HTML для создания простого сайта.</p>
         </section>
 
+        <!-- Parallax section -->
+        <div class="parallax" style="background-image: url('https://via.placeholder.com/1920x1080');">
+            <h2>Параллакс эффект</h2>
+        </div>
+
         <!-- Contact Form -->
-        <section>
+        <section class="fade-in">
             <h2>Обратная связь</h2>
-            <form>
+            <form id="contactForm">
                 <p>Ваше имя:</p>
                 <input type="text" id="name" name="name" required>
 
@@ -172,9 +261,18 @@
         </section>
     </main>
     
-    <footer>
+    <footer class="fade-in">
         <p>&copy; 2024 Мой сайт. Все права защищены.</p>
     </footer>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Это модальное окно</h2>
+            <p>Здесь может быть ваш контент. Нажмите на крестик или кликните вне окна, чтобы закрыть.</p>
+        </div>
+    </div>
 
     <script>
         // Snowflake generation and animation
@@ -197,10 +295,78 @@
             }
         }
 
-        // Call the function to create snowflakes
-        createSnowflakes();
+        // Fade-in effect on load
+        window.onload = function() {
+            createSnowflakes();
+            
+            // Apply fade-in effect to all elements with the class
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '1';
+            });
+        };
+
+        // Modal window functionality
+        const modal = document.getElementById('myModal');
+        const btn = document.getElementById('modalBtn');
+        const span = document.getElementsByClassName('close')[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Form submission animation
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Animation on submit
+            const submitBtn = this.querySelector('button');
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.style.backgroundColor = '#337ab7';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                submitBtn.textContent = 'Отправлено!';
+                submitBtn.style.backgroundColor = '#5cb85c';
+                
+                // Reset form after 2 seconds
+                setTimeout(() => {
+                    this.reset();
+                    submitBtn.textContent = 'Отправить';
+                    submitBtn.style.backgroundColor = '#5cb85c';
+                }, 2000);
+            }, 1500);
+        });
+
+        // Hover effect for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('mouseover', function() {
+                this.style.color = '#4CAF50';
+                const icon = this.querySelector('i');
+                if (icon) {
+                    icon.style.transform = 'scale(1.2)';
+                    icon.style.transition = 'transform 0.3s';
+                }
+            });
+            
+            link.addEventListener('mouseout', function() {
+                this.style.color = 'white';
+                const icon = this.querySelector('i');
+                if (icon) {
+                    icon.style.transform = 'scale(1)';
+                }
+            });
+        });
     </script>
 </body>
 </html>
-
-

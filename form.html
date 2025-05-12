@@ -4,7 +4,7 @@
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Форма</title> 
-     <style>
+    <style>
         body {
             -webkit-user-select: none; /* Safari */
             -moz-user-select: none; /* Firefox */
@@ -23,6 +23,7 @@
             --clr: #fff; 
             --main-font: 'Roboto', sans-serif; 
             --secondary-font: 'Arial', sans-serif; 
+            --accent-color: #4CAF50;
         } 
         body { 
             font-family: var(--main-font); 
@@ -62,6 +63,12 @@
             }
         }
 
+        /* Fade-in effect */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+        }
+
         header { 
             width: 100%; 
             text-align: center; 
@@ -82,11 +89,20 @@
             background: #333; 
             border-radius: 10px; 
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+            transform: scale(1);
+            transition: transform 0.3s, box-shadow 0.3s;
         } 
+
+        main:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
         label { 
             display: block; 
             margin-bottom: 10px; 
             color: var(--clr); 
+            transition: color 0.3s;
         } 
         input, textarea { 
             width: 100%; 
@@ -96,16 +112,30 @@
             border-radius: 5px; 
             background: #444; 
             color: var(--clr); 
+            transition: border-color 0.3s, background-color 0.3s;
         } 
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-color);
+            background: #555;
+            outline: none;
+        }
+
         input[type="submit"] { 
-            background: var(--clr); 
+            background: var(--accent-color); 
             border: none; 
             cursor: pointer; 
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
         } 
         input[type="submit"]:hover { 
-            background: #fff; 
-            color: #222; 
+            background: #45a049; 
         } 
+
+        input[type="submit"]:active {
+            transform: scale(0.98);
+        }
+
         .gender-options { 
             display: flex; 
             gap: 20px; 
@@ -115,51 +145,77 @@
             display: flex; 
             align-items: center; 
             color: var(--clr); 
+            cursor: pointer;
+            transition: color 0.3s;
         } 
+
+        .gender-options label:hover {
+            color: var(--accent-color);
+        }
+
+        input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        /* Form submission animation */
+        .submitting {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { background-color: var(--accent-color); }
+            50% { background-color: #337ab7; }
+            100% { background-color: var(--accent-color); }
+        }
+
+        .success {
+            background-color: #4CAF50 !important;
+        }
     </style> 
 </head> 
 <body> 
- 
     <div class="snowflakes-container"></div> 
- 
-    <header> 
+
+    <header class="fade-in">
         <h1>Заполните форму</h1> 
     </header> 
-    <main> 
-        <form> 
+
+    <main class="fade-in">
+        <form id="myForm"> 
             <label>Имя:</label> 
             <input type="text" required> 
- 
+
             <label>Фамилия:</label> 
             <input type="text" required> 
- 
+
             <label>Пол:</label> 
             <div class="gender-options"> 
                 <label> 
                     <input type="radio" name="gender" value="male" required> 
                     Мужской 
                 </label> 
- 
+
                 <label> 
                     <input type="radio" name="gender" value="female"> 
                     Женский 
                 </label> 
             </div> 
- 
+
             <label>Возраст:</label> 
             <input type="number" min="1" max="100" required> лет 
- 
+
             <label>Расскажите немного о себе:</label> 
             <textarea rows="4" required></textarea> 
- 
+
             <input type="submit" value="Отправить"> 
         </form> 
     </main> 
- 
+
     <script> 
         // Создание снежинок 
         function createSnowflakes() {
-const snowflakesContainer = document.querySelector('.snowflakes-container'); 
+            const snowflakesContainer = document.querySelector('.snowflakes-container'); 
             for (let i = 0; i < 100; i++) { // Количество снежинок 
                 const snowflake = document.createElement('div'); 
                 snowflake.className = 'snowflake'; 
@@ -172,9 +228,62 @@ const snowflakesContainer = document.querySelector('.snowflakes-container');
                 snowflakesContainer.appendChild(snowflake); 
             } 
         } 
-         
-        createSnowflakes(); // Вызов функции для создания снежинок 
+
+        // Fade-in effect on load
+        window.onload = function() {
+            createSnowflakes();
+            
+            // Apply fade-in effect to all elements with the class
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '1';
+            });
+        };
+
+        // Form submission animation
+        const form = document.getElementById('myForm');
+        const submitBtn = form.querySelector('input[type="submit"]');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Animation on submit
+            submitBtn.value = 'Отправка...';
+            submitBtn.classList.add('submitting');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                submitBtn.value = 'Отправлено!';
+                submitBtn.classList.remove('submitting');
+                submitBtn.classList.add('success');
+                
+                // Reset form after 2 seconds
+                setTimeout(() => {
+                    form.reset();
+                    submitBtn.value = 'Отправить';
+                    submitBtn.classList.remove('success');
+                }, 2000);
+            }, 1500);
+        });
+
+        // Hover effect for radio buttons
+        document.querySelectorAll('.gender-options label').forEach(label => {
+            label.addEventListener('mouseover', function() {
+                this.style.color = '#4CAF50';
+            });
+            
+            label.addEventListener('mouseout', function() {
+                if (!this.querySelector('input').checked) {
+                    this.style.color = 'var(--clr)';
+                }
+            });
+            
+            // Keep accent color when selected
+            label.querySelector('input').addEventListener('change', function() {
+                if (this.checked) {
+                    this.parentElement.style.color = '#4CAF50';
+                }
+            });
+        });
     </script> 
- 
 </body> 
 </html>
